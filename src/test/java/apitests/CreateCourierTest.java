@@ -11,10 +11,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 public class CreateCourierTest {
     //Создаем тестовые данные
-    public String login = "bgfbdfdsddddddffdsgbrrfrdgbdg";
+    public String login = "KuriMaria";
     public String password = "Kuri12!@";
     public String firstName = "Кюри";
-
 
     @Before
     public void setUp() {
@@ -24,6 +23,7 @@ public class CreateCourierTest {
     //Успешное создание курьера
     @Test
     public void createACourierSuccessfullyTest() {
+        //Создаем курьера (регистрируемся)
         CreateCourierRq courier = new CreateCourierRq(login, password, firstName);
         Response createCourier =
                 given()
@@ -35,6 +35,7 @@ public class CreateCourierTest {
         createCourier.then().statusCode(201);
         createCourier.then().assertThat().body("ok", equalTo(true));
 
+        //Получаем id курьера (логинимся)
         String id;
         LoginCourierRq loginCourierRq = new LoginCourierRq(login, password);
         LoginCourierRs loginCourier =
@@ -47,6 +48,7 @@ public class CreateCourierTest {
                         .body().as(LoginCourierRs.class);
         id = String.valueOf(loginCourier.getId());
 
+        //Удаляем курьера (удалить)
         DeleteCourierRq deleteCourierRq = new DeleteCourierRq(id);
         Response deleteCourier =
                 given()
@@ -108,7 +110,7 @@ public class CreateCourierTest {
     //Создание дубля курьера (одинаковый login)
     @Test
     public void createDoubleCourierSuccessfullyTest() {
-        //Создание основного
+        //Создание курьера
         CreateCourierRq courier = new CreateCourierRq(login, password, firstName);
         Response responseCreateFirst =
                 given()
@@ -120,7 +122,7 @@ public class CreateCourierTest {
         responseCreateFirst.then().statusCode(201);
         responseCreateFirst.then().assertThat().body("ok", equalTo(true));
 
-        //Создание дубля
+        //Создание дубля курьера
         Response responseCreateDouble =
                 given()
                         .header("Content-type", "application/json")

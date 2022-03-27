@@ -2,6 +2,9 @@ package datafortests;
 
 public class LoginCourierRs {
 
+    private int id;
+
+
     public int getId() {
         return id;
     }
@@ -10,6 +13,5 @@ public class LoginCourierRs {
         this.id = id;
     }
 
-    private int id;
 
 }

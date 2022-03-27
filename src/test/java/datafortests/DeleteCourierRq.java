@@ -1,21 +1,23 @@
 package datafortests;
 
 public class DeleteCourierRq {
-    private int id;
 
-    public DeleteCourierRq(int id) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
+
+    public DeleteCourierRq(String id) {
         this.id = id;
     }
 
     public DeleteCourierRq() {
-
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }
+

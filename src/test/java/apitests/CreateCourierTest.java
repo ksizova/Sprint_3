@@ -10,6 +10,8 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 
 public class CreateCourierTest {
+    /*
+
     //Создаем тестовые данные
     public String login = "KuriMaria";
     public String password = "Kuri12!@";
@@ -20,9 +22,11 @@ public class CreateCourierTest {
         RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
     }
 
+
+
     //Успешное создание курьера
     @Test
-    public void createACourierSuccessfullyTest() {
+    public void createCourierSuccessfullyTest() {
         //Создаем курьера (регистрируемся)
         CreateCourierRq courier = new CreateCourierRq(login, password, firstName);
         Response createCourier =
@@ -34,21 +38,15 @@ public class CreateCourierTest {
                         .post("/api/v1/courier");
         createCourier.then().statusCode(201);
         createCourier.then().assertThat().body("ok", equalTo(true));
+    }
 
-        //Получаем id курьера (логинимся)
-        String id;
-        LoginCourierRq loginCourierRq = new LoginCourierRq(login, password);
-        LoginCourierRs loginCourier =
-                given()
-                        .header("Content-type", "application/json")
-                        .and()
-                        .body(loginCourierRq)
-                        .when()
-                        .post("/api/v1/courier/login")
-                        .body().as(LoginCourierRs.class);
-        id = String.valueOf(loginCourier.getId());
 
-        //Удаляем курьера (удалить)
+    //Удаляем тестовые данные
+    @Test
+    public void deleteCourierSuccessfullyTest() {
+
+        GetCourierID courierID = new GetCourierID();
+        String id = courierID.getCourierID(login, password);
         DeleteCourierRq deleteCourierRq = new DeleteCourierRq(id);
         Response deleteCourier =
                 given()
@@ -59,8 +57,6 @@ public class CreateCourierTest {
                         .delete("api/v1/courier/" + id);
         deleteCourier.then().statusCode(200);
     }
-
-
     //Создание курьера без обязательного параметра - логин
     @Test
     public void createCourierWithoutLoginSuccessfullyTest() {
@@ -134,5 +130,7 @@ public class CreateCourierTest {
         responseCreateDouble.then().assertThat().body("message", equalTo("Этот логин уже используется"));
     }
 
+
+     */
 
 }

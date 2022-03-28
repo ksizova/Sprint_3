@@ -1,23 +1,19 @@
 package apitests;
 
-import com.google.gson.Gson;
 import datafortests.CreateCourierRq;
+import datafortests.DeleteCourierRq;
 import datafortests.LoginCourierRq;
+import datafortests.LoginCourierRs;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.FileHandler;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 public class LoginCourierTest {
+    /*
 
     public String login = "KuriMaria";
     public String password = "Kuri12!@";
@@ -28,6 +24,7 @@ public class LoginCourierTest {
         RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
     }
 
+    //Проверяем, что логиниться возможно
     @Test
     public void loginCourierSuccessfullyTest() {
         //Создаем курьера
@@ -44,30 +41,41 @@ public class LoginCourierTest {
 
         //Курьер логинится
         LoginCourierRq loginCourierRq = new LoginCourierRq(login, password);
-        Response response =
+        Response loginCourier =
                 given()
                         .header("Content-type", "application/json")
                         .and()
                         .body(loginCourierRq)
                         .when()
                         .post("/api/v1/courier/login");
-        response.then().statusCode(200);
-        response.then().assertThat().body("id", notNullValue());
+        loginCourier.then().statusCode(200);
+        loginCourier.then().assertThat().body("id", notNullValue());
 
-/*
+        //Получаем id курьера
+        String id;
+        LoginCourierRs loginCourierForId =
+                given()
+                        .header("Content-type", "application/json")
+                        .and()
+                        .body(loginCourierRq)
+                        .when()
+                        .post("/api/v1/courier/login")
+                        .body().as(LoginCourierRs.class);
+        id = String.valueOf(loginCourierForId.getId());
+
+
+        //Удаляем курьера
+        DeleteCourierRq deleteCourierRq = new DeleteCourierRq(id);
         Response deleteCourier =
                  given()
                          .header("Content-type", "application/json")
                          .and()
-                         .body(jsonStringId)
+                         .body(deleteCourierRq)
                          .when()
-                         .delete("api/v1/courier/");
+                         .delete("api/v1/courier/" + id);
         deleteCourier.then().statusCode(200);
         }
 
- */
-
-    }
 
     //Ошибка 400 при логине клиента без обязательного поля логин
     @Test
@@ -140,5 +148,7 @@ public class LoginCourierTest {
         response.then().assertThat().body("message", equalTo("Учетная запись не найдена"));
 
     }
+
+     */
 
 }

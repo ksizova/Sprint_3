@@ -1,6 +1,7 @@
 package createcouriertests;
 
 import datafortests.*;
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
@@ -8,9 +9,14 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class CreateCourierTest {
 
@@ -31,6 +37,9 @@ public class CreateCourierTest {
         Response createResponse = sendPOSTRequestCourierRegistration();
         compareCreateCourierStatusRs(createResponse, 201);
         compareCreateCourierBodyRs(createResponse, true);
+        Response loginCourier = sendPOSTRequestCourierLogin();
+        compareLoginCourierStatusRs(loginCourier, 200);
+        compareLoginCourierBodyRs(loginCourier);
         Response deleteResponce = sendDeleteRequestCourier();
         compareDeleteCourierStatusRs(deleteResponce, 200);
     }
@@ -50,6 +59,23 @@ public class CreateCourierTest {
     @Step("Сравнить тело ответа")
     public void compareCreateCourierBodyRs(Response response, boolean ok) {
         response.then().assertThat().body("ok", equalTo(ok));
+    }
+
+    @Step("Отправка POST-запроса '/api/v1/courier/login' для логина курьера")
+    public Response sendPOSTRequestCourierLogin() {
+        LoginCourier loginCourier = new LoginCourier();
+        Response response = loginCourier.loginCourier(login, password);
+        return response;
+    }
+
+    @Step("Сравнить статус ответа")
+    public void compareLoginCourierStatusRs(Response response, int status) {
+        MatcherAssert.assertThat(response.statusCode(), equalTo(status));
+    }
+
+    @Step("Сравнить тело ответа")
+    public void compareLoginCourierBodyRs(Response response) {
+        MatcherAssert.assertThat(response.body(), notNullValue());
     }
 
     @Step("Удалить курьера")

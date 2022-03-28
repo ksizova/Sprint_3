@@ -1,4 +1,4 @@
-package couriertest;
+package createcouriertests;
 import datafortests.CreateCourier;
 import datafortests.DeleteCourier;
 import datafortests.GetCourierID;
@@ -35,7 +35,7 @@ public class CreateDoubleCourierTest {
         Response createDoubleCourier = sendPOSTRequestCourierRegistration();
         compareCreateDoubleCourierStatusRs(createDoubleCourier, 409);
         compareCreateDoubleCourierBodyRs(createDoubleCourier, "Этот логин уже используется");
-        Response deleteResponce = deleteCourier();
+        Response deleteResponce = sendDeleteRequestCourier();
         compareDeleteCourierStatusRs(deleteResponce, 200);
 
     }
@@ -68,7 +68,7 @@ public class CreateDoubleCourierTest {
     }
 
     @Step("Удалить курьера")
-    public Response deleteCourier() {
+    public Response sendDeleteRequestCourier() {
         GetCourierID getCourierID = new GetCourierID();
         String id = getCourierID.getCourierID(login, password);
         DeleteCourier deleteCourier = new DeleteCourier();

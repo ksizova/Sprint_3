@@ -1,4 +1,4 @@
-package couriertest;
+package createcouriertests;
 
 import datafortests.CreateCourier;
 import io.qameta.allure.Description;

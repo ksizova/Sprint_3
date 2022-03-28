@@ -22,7 +22,7 @@ public class LoginCourierWithBadAuthTest {
         RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
     }
 
-    @DisplayName("Логин не существующего. Негативный") // имя теста
+    @DisplayName("Логин не существующего курьера. Негативный") // имя теста
     @Description("Логиен курьера с несуществующими данными: логин и пароль")
     @Test
     public void loginCourierWithBadDataSuccessfullyTest() {
@@ -49,5 +49,6 @@ public class LoginCourierWithBadAuthTest {
     public void compareLoginCourierBodyRs(Response response, String message) {
         response.then().assertThat().body("message", equalTo(message));
     }
+
 
 }

@@ -8,6 +8,7 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -79,6 +80,11 @@ public class CreateDoubleCourierTest {
     @Step("Сравнить статус ответа")
     public void compareDeleteCourierStatusRs(Response response, int status) {
         MatcherAssert.assertThat(response.statusCode(), equalTo(status));
+    }
+
+    @After
+    public void afterTest() {
+        sendDeleteRequestCourier();
     }
 
 }

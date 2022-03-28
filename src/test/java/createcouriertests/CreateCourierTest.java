@@ -75,7 +75,7 @@ public class CreateCourierTest {
 
     @Step("Сравнить тело ответа")
     public void compareLoginCourierBodyRs(Response response) {
-        MatcherAssert.assertThat(response.body(), notNullValue());
+        response.then().assertThat().body("id", notNullValue());
     }
 
     @Step("Удалить курьера")

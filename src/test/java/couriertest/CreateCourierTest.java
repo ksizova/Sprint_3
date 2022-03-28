@@ -6,6 +6,7 @@ import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -27,14 +28,11 @@ public class CreateCourierTest {
     @Test
     public void createCourierTest() {
         Response createResponse = sendPOSTRequestCourierRegistration();
-        compareCreateCourierStatusRs(createResponse);
+        compareCreateCourierStatusRs(createResponse, 201);
         compareCreateCourierBodyRs(createResponse, true);
-        showCreateCourierBodyRs(createResponse);
         getID();
-        showID();
         Response deleteResponce = deleteCourier();
-        compareDeleteCourierStatusRs(deleteResponce);
-        showDeleteCourierBodyRs(deleteResponce);
+        compareDeleteCourierStatusRs(deleteResponce, 200);
     }
 
     @Step("Отправить POST-запрос '/api/v1/courier' для регистрации курьера")
@@ -45,8 +43,8 @@ public class CreateCourierTest {
     }
 
     @Step("Сравнить статус ответа")
-    public void compareCreateCourierStatusRs(Response response) {
-        response.then().assertThat().statusCode(201);
+    public void compareCreateCourierStatusRs(Response response, int status) {
+        MatcherAssert.assertThat(response.statusCode(), equalTo(status));
     }
 
     @Step("Сравнить тело ответа")
@@ -54,21 +52,11 @@ public class CreateCourierTest {
         response.then().assertThat().body("ok", equalTo(ok));
     }
 
-    @Step("Вывести ответ на экран: создание курьера")
-    public void showCreateCourierBodyRs(Response response) {
-        System.out.println(response.body().asString());
-    }
-
     @Step("Получить ID клиента")
     public String getID() {
         GetCourierID getCourierID = new GetCourierID();
         String id = getCourierID.getCourierID(login, password);
         return id;
-    }
-
-    @Step("Вывести ID на экран")
-    public void showID() {
-        System.out.println(getID());
     }
 
     @Step("Удалить курьера")
@@ -79,12 +67,8 @@ public class CreateCourierTest {
     }
 
     @Step("Сравнить статус ответа")
-    public void compareDeleteCourierStatusRs(Response response) {
-        response.then().assertThat().statusCode(200);
+    public void compareDeleteCourierStatusRs(Response response, int status) {
+        MatcherAssert.assertThat(response.statusCode(), equalTo(status));
     }
-
-    @Step("Вывести ответ на экран: удаление курьера")
-    public void showDeleteCourierBodyRs(Response response) {
-        System.out.println(response.body().asString());
-    }
+    
 }

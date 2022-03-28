@@ -21,7 +21,7 @@ public class CreateCourierWithoutLoginTest {
         RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
     }
 
-    @DisplayName("Создание курьера без обязательного параметра: логин") // имя теста
+    @DisplayName("Создание курьера без обязательного параметра: логин. Негативный") // имя теста
     @Description("Тест проверяет ручку '/api/v1/courier', передает в теле имя и пароль без логина")
     @Test
     public void createCourierWithoutLoginSuccessfullyTest() {
